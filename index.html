@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!-- saved from url=(0109)https://moodle.leo-statz-berufskolleg.de/pluginfile.php/424290/mod_resource/content/0/_anbietervergleich.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Druckervergleich</title>
+    <!-- Füge das Bootstrap-CSS hinzu -->
+    <link rel="stylesheet" href="./Druckervergleich_files/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-6">
+        <h1>INFOTEAM GmbH - Vergleich Druckeranbieter</h1>
+        <form>
+            <div class="form-group">
+                <label for="idAnschaffungspreisECO">Anschaffungspreis Eco Plus:</label>
+                <input id="idAnschaffungspreisECO" class="form-control" type="text" value="300" placeholder="in €">
+            </div>
+            <div class="form-group">
+                <label for="idKostenProSeiteEco">Kosten pro Seite Eco Plus:</label>
+                <input id="idKostenProSeiteEco" class="form-control" type="text" value="0.06" placeholder="in €">
+            </div>
+            <div class="form-group">
+                <label for="idAnschaffungspreisSmart">Anschaffungskosten Smart Print:</label>
+                <input id="idAnschaffungspreisSmart" class="form-control" type="text" value="200" placeholder="in €">
+            </div>
+            <div class="form-group">
+                <label for="idKostenProSeiteSmart">Kosten pro Seite Smart Print:</label>
+                <input id="idKostenProSeiteSmart" class="form-control" type="text" value="0.08" placeholder="in €">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="fDruck();">Kalkuliere!</button>
+            <a class="btn btn-primary" type="button" href="../index.html">Zurück</a>
+        </form>
+        <div class="mt-4" id="idAusgabe"></div>
+    </div>
+
+    <!-- Füge das Bootstrap-JS und Popper.js hinzu -->
+    <script src="./Druckervergleich_files/jquery-3.5.1.slim.min.js.Download"></script>
+    <script src="./Druckervergleich_files/popper.min.js.Download"></script>
+    <script src="./Druckervergleich_files/bootstrap.min.js.Download"></script>
+
+    <script>
+	// Funktion anlegen 2 Punkte 
+	function fDruck() {
+
+    // Variablen deklarieren (4 Punkte)
+    var vAnschaffungsPreisEco;
+    var vAnschaffungsPreisSmart;
+    var vGesamtkostenEco;
+    var vGesamtkostenSmart;
+    var vKostenProSeiteEco;
+    var vKostenProSeiteSmart;
+    var vAusgabeHTML = "";
+    var vStart = 1000;
+    var vXK; //kritische Menge
+    
+   vAnschaffungsPreisEco = parseFloat(document.getElementById("idAnschaffungspreisECO").value);
+   vKostenProSeiteEco = parseFloat(document.getElementById("idKostenProSeiteEco").value);
+   vAnschaffungsPreisSmart = parseFloat(document.getElementById("idAnschaffungspreisSmart").value);
+   vKostenProSeiteSmart = parseFloat(document.getElementById("idKostenProSeiteSmart").value);
+   
+        vAusgabeHTML = vAusgabeHTML + "<table class='table table-striped table-bordered'>";
+        vAusgabeHTML = vAusgabeHTML + "<thead class='thead-dark'><tr><th>Seitenzahl</th>";
+        vAusgabeHTML = vAusgabeHTML + "<th>Gesamtkosten Eco</th>";
+        vAusgabeHTML = vAusgabeHTML + "<th>Gesamtkosten Smart</th>";
+        vAusgabeHTML = vAusgabeHTML + "<th>Bemerkung</th></tr></thead><tbody>";
+
+
+while (vStart<=10000) {
+
+vGesamtkostenEco = (vStart * vKostenProSeiteEco) + vAnschaffungsPreisEco;
+vGesamtkostenSmart = (vStart * vKostenProSeiteSmart) + vAnschaffungsPreisSmart;
+
+if (vGesamtkostenEco>vGesamtkostenSmart) {
+
+
+    vAusgabeHTML = vAusgabeHTML + "<tr><td>" + vStart + "</td><td>" + vGesamtkostenEco + "</td><td>" + vGesamtkostenSmart + "</td><td>Smart ist günstiger.</td></tr>";
+}
+
+else if (vGesamtkostenEco<vGesamtkostenSmart) {
+
+
+    vAusgabeHTML = vAusgabeHTML + "<tr><td>" + vStart + "</td><td>" + vGesamtkostenEco + "</td><td>" + vGesamtkostenSmart + "</td><td>Eco ist günstiger.</td></tr>";
+
+
+} else {
+
+
+    vAusgabeHTML = vAusgabeHTML + "<tr style= background-color:green>><td>" + vStart + "</td><td>" + vGesamtkostenEco + "</td><td>" + vGesamtkostenSmart + "</td><td>Kritische Menge/Gleicher Preis!</td></tr>";
+}
+
+vStart = vStart + 1000;
+}
+
+// Tabelle schließen 
+    vAusgabeHTML = vAusgabeHTML + "</table></br>";
+
+
+    document.getElementById("idAusgabe").innerHTML = vAusgabeHTML;
+}
+
+</script>
+
+
+</body></html>
